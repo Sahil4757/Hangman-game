@@ -1,13 +1,13 @@
 #include<iostream>
-#include<vector>                            // Dynamic array
-#include<fstream>                           // To load files
+#include<vector>                           
+#include<fstream>                          
 #include<string>
 #include<time.h>
 using namespace std;
 
 void printmessage (string message, bool printTop = true, bool printBotomm = true) {
 
-    //prints top"+--" 
+    
     if (printTop) {
         cout << "+---------------------------------+" << endl;
         cout << "|";
@@ -15,7 +15,7 @@ void printmessage (string message, bool printTop = true, bool printBotomm = true
         cout << "|";
     }
 
-    //prints sentence 
+   
     bool front = true;
     for (int i = message.length(); i < 33; i++) {
         if (front) {
@@ -28,7 +28,6 @@ void printmessage (string message, bool printTop = true, bool printBotomm = true
     }
     cout << message.c_str();
 
-    // prinits bottom "---+" after sentence
     if (printBotomm) {
         cout << "|" << endl;
         cout << "+---------------------------------+" << endl; 
@@ -40,9 +39,6 @@ void printmessage (string message, bool printTop = true, bool printBotomm = true
 
 void drawHangman (int guessCount = 0) {
 
-    //this function draws hangman's body as per guess count
-    //else means rhs space
-    //printmessage("lhs", top, bottom)
     if (guessCount >= 1) 
         printmessage("|", false, false);
     else 
@@ -58,7 +54,6 @@ void drawHangman (int guessCount = 0) {
     else 
         printmessage("", false, false);
 
-    // here == bc 3 chars on line therefore print '/' only idk y. Also no else condition for these. 
     if (guessCount == 4) 
         printmessage("/  ", false, false);
     if (guessCount == 5)
@@ -83,8 +78,6 @@ void drawHangman (int guessCount = 0) {
 
 void printLetters (string input, char from, char to) {
 
-    // This prints chars A to Z 
-    // Empty if guessed char correctly
     string s;
     for (char i = from; i <= to; i++) {
         if (input.find(i) == string::npos) {   
@@ -99,15 +92,13 @@ void printLetters (string input, char from, char to) {
 
 void printAvailiableLeters (string taken) {
 
-    // same like above fun ig
-    printmessage("Availiable Letters");     //here fun(" ", true, true);
+    printmessage("Availiable Letters");    
     printLetters(taken, 'A', 'M');
     printLetters(taken, 'N', 'Z');
 }
 
 bool printWordAndCheckWin (string word, string guessed) {
 
-    //assume player already won
     bool won = true;
     string s;
     for (int i = 0; i < word.length(); i++) {
@@ -120,29 +111,25 @@ bool printWordAndCheckWin (string word, string guessed) {
             s += " ";
         }
     }
-    //prints entered guess if correct on that _
     printmessage(s, false);
     return won;
 }
 
 string loadRandomWord (string path)  {
 
-    // Most complex fuction yet
-    // This will load any 1 of 100 words from hangman.txt file
-
     srand(time(0));
     int lineCount = 0;                      
     string word;
     vector<string> v;                       
-    ifstream reader(path);                      // read file path ?
-    if (reader.is_open())                       // if file is open
+    ifstream reader(path);                      
+    if (reader.is_open())                      
     {                 
         while(std::getline(reader, word))       
             v.push_back(word);
 
-        int randomLine = rand() % v.size();     // random find  v.size = max, min = 0
+        int randomLine = rand() % v.size();     
 
-        word = v.at(randomLine);                //word = random sentence selected
+        word = v.at(randomLine);               
         reader.close();
     }
     return word;
@@ -151,7 +138,6 @@ string loadRandomWord (string path)  {
 
 int triesLeft (string word, string guessed) {
 
-    // simple fun to find errors | if guessed char[i] != char at that pos, err++
     int error = 0;
     for (int i = 0; i < guessed.length(); i++) {
         if (word.find(guessed[i]) == string::npos)
@@ -170,7 +156,7 @@ int main()
     bool win = false;
     do {
         system("cls");
-        printmessage("Hang Man");                               // fun(" ", true, true);
+        printmessage("Hang Man");                               
         drawHangman(tries);
         printAvailiableLeters(guesses);
         printmessage("Guess the word");
